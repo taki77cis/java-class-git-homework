@@ -70,9 +70,13 @@ public class Main {
 
       int id = Integer.parseInt(request.params(":id"));
       Student studentToUpdate = school.getStudentById(id);
+      try{
+        UpdateGradeRequest update = fromJson(request.body(), UpdateGradeRequest.class);
+        studentToUpdate.setGrade(update.grade);
+      } catch (Exception ex) {
+        studentToUpdate.setGrade(0);
+      }
 
-      UpdateGradeRequest update = fromJson(request.body(), UpdateGradeRequest.class);
-      studentToUpdate.setGrade(update.grade);
       String json =toJson(studentToUpdate);
       return json;
     });
